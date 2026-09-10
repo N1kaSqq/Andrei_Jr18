@@ -21,3 +21,6 @@ package-lock.json
 # Build files (if you ever add a build process)
 dist/
 build/
+
+# Временные файлы ревью
+_tmp_*
