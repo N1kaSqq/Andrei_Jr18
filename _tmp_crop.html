@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html><head><style>body{margin:0;background:#222;}canvas{image-rendering:pixelated;}</style></head>
+<body>
+<canvas id="c"></canvas>
+<script>
+const img = new Image();
+img.onload = () => {
+  const sx=210, sy=220, sw=360, sh=280, scale=2;
+  const c = document.getElementById('c');
+  c.width = sw*scale; c.height = sh*scale;
+  const ctx = c.getContext('2d');
+  ctx.imageSmoothingEnabled = false;
+  ctx.drawImage(img, sx, sy, sw, sh, 0, 0, sw*scale, sh*scale);
+};
+img.src = '_tmp_review_zoom.png';
+</script>
+</body></html>
