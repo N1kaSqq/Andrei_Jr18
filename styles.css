@@ -1,0 +1,856 @@
+/* ============================================================
+   Лендинг Андрея Снегурова
+   Порядок блоков совпадает с порядком секций в index.html.
+   ============================================================ */
+
+/* ============================================================
+   Токены
+   ============================================================ */
+:root {
+    --bg: #111111;
+    --accent: #008CFF;
+    --accent-hover: #2EA0FF;
+    --text: #FFFFFF;
+    --overlay-photo: linear-gradient(61.36deg,
+        rgba(17, 17, 17, 0) 19.7%,
+        rgba(17, 17, 17, .16) 69.5%,
+        #10181E 91%);
+
+    --font-display: 'Exo 2', 'Segoe UI', sans-serif;
+    --font-body: 'Montserrat Alternates', 'Segoe UI', sans-serif;
+
+    --radius-sm: 8px;
+    --radius-md: 16px;
+    --hairline: 0.8px solid var(--accent);
+
+    --container: 390px;
+    --gutter: 27px;
+    --nav-h: 42px;
+}
+
+/* ============================================================
+   Reset и база
+   ============================================================ */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: var(--nav-h);
+    /* Декоративные элементы намеренно выходят за края экрана (номера 01-04,
+       свечения, размытая копия hero-фото) — прокрутки по горизонтали быть
+       не должно. Обрезаем один раз на корне: обрезать сами секции нельзя,
+       иначе у свечений появится резкий край вместо мягкого градиента.
+       `clip` предпочтительнее `hidden`: он не делает элемент скролл-контейнером
+       и не превращает overflow-y в auto. Строка с `hidden` — запасной вариант
+       для браузеров без поддержки `clip`. */
+    overflow-x: hidden;
+    overflow-x: clip;
+}
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 13px;
+    line-height: 1.35;
+    -webkit-font-smoothing: antialiased;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+}
+
+a { color: inherit; }
+
+:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+/* ============================================================
+   Утилиты
+   ============================================================ */
+.container {
+    width: 100%;
+    max-width: var(--container);
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+}
+
+/* `overflow-x: clip` обрезает то, что выходит за боковые края экрана
+   (свечения, номера 01-04) — ровно как фрейм в макете. Именно `clip`,
+   а не `hidden`: `hidden` превратил бы overflow-y в auto и добавил
+   секции собственную вертикальную прокрутку. По вертикали ничего не
+   обрезается, поэтому свечения свободно растекаются между секциями. */
+.section {
+    position: relative;
+    z-index: 1;
+    overflow-x: clip;
+}
+
+.section-title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 200;
+    font-size: 32px;
+    line-height: 1.18;
+    color: var(--accent);
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.accent { color: var(--accent); }
+
+/* Размытые синие пятна фона. Позиция и размер задаются инлайном
+   через --glow-x / --glow-y / --glow-size. */
+.glow {
+    position: absolute;
+    z-index: 0;
+    left: var(--glow-x, 0);
+    top: var(--glow-y, 0);
+    width: var(--glow-size, 154px);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: var(--accent);
+    filter: blur(129.6px);
+    pointer-events: none;
+}
+
+/* ============================================================
+   Кнопки
+   ============================================================ */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding-inline: 20px;
+    border: 0;
+    background: var(--accent);
+    color: var(--text);
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background-color .2s ease, transform .2s ease;
+}
+
+.btn:hover { background: var(--accent-hover); }
+.btn:active { transform: translateY(1px); }
+.btn:focus-visible { outline-color: var(--text); }
+
+.btn--wide {
+    position: relative;
+    display: flex;
+    width: 100%;
+    padding-inline: 20px 52px;
+    border-radius: var(--radius-sm);
+}
+
+.btn__arrow {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    width: 24px;
+    height: 24px;
+    translate: 0 -50%;
+}
+
+/* ============================================================
+   Навигация
+   ============================================================ */
+.nav {
+    position: fixed;
+    inset: 0 0 auto;
+    z-index: 20;
+    height: var(--nav-h);
+    background: var(--accent);
+}
+
+.nav__list {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+    max-width: var(--container);
+    margin-inline: auto;
+    padding: 0 var(--gutter);
+    list-style: none;
+}
+
+.nav__link {
+    display: block;
+    padding: 6px 2px;
+    font-size: 13px;
+    text-decoration: none;
+    opacity: .85;
+    transition: opacity .2s ease, text-shadow .2s ease;
+}
+
+.nav__link:hover { opacity: 1; }
+
+/* Ссылки лежат на сплошной синей полосе — синяя обводка фокуса
+   по умолчанию на ней не видна. */
+.nav__link:focus-visible { outline-color: var(--text); }
+
+.nav__link.is-active {
+    opacity: 1;
+    font-weight: 500;
+    text-shadow: 0 0 12px rgba(255, 255, 255, .5);
+}
+
+/* ============================================================
+   Hero
+   ============================================================ */
+.hero { padding-top: 8px; }
+
+.hero__inner { position: relative; }
+
+.hero__media {
+    position: relative;
+    aspect-ratio: 390 / 404;
+    overflow: hidden;
+}
+
+/* Фигура вырезана с прозрачным фоном, поэтому за ней видны фон страницы,
+   свечение и синяя ломаная — как в макете. Пропорции исходника совпадают
+   с рамкой из Figma (431x644), поэтому высота считается от ширины. */
+.hero__photo {
+    position: absolute;
+    left: -3.333%;         /* -13 / 390 */
+    top: 2.475%;           /*  10 / 404 */
+    width: 110.513%;       /* 431 / 390 */
+    height: auto;
+    max-width: none;
+}
+
+.hero__photo--blur {
+    left: 0;
+    top: 3.96%;            /*  16 / 404 */
+    opacity: .41;
+    filter: blur(6.45px);
+}
+
+.hero__lines {
+    position: absolute;
+    left: -7.5%;
+    top: 14.4%;
+    width: 99.4%;
+    max-width: none;
+    pointer-events: none;
+}
+
+.hero__caption {
+    position: absolute;
+    right: var(--gutter);
+    top: 74px;
+    z-index: 2;
+    text-align: right;
+}
+
+.hero__title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 200;
+    font-size: 32px;
+    line-height: 1.18;
+    color: var(--accent);
+    text-transform: uppercase;
+}
+
+.hero__role {
+    margin: 8px 0 0;
+    font-size: 13px;
+    line-height: 1.25;
+}
+
+.hero__rule {
+    height: 8px;
+    background: var(--accent);
+}
+
+/* ============================================================
+   Слоган и первый CTA
+   ============================================================ */
+.intro { padding-top: 27px; }
+
+.intro__text {
+    max-width: 350px;
+    margin: 0 auto 24px;
+    text-align: center;
+    line-height: 1.42;
+}
+
+/* ============================================================
+   Обо мне
+   ============================================================ */
+.about { padding-top: 35px; }
+
+.about__text { margin-top: 26px; }
+
+.about__text p {
+    margin: 0 0 14px;
+    line-height: 1.42;
+}
+
+.about__text p:last-child { margin-bottom: 0; }
+
+.about__figure {
+    position: relative;
+    margin: 20px 0 0;
+    padding-bottom: 8px;
+}
+
+.about__photo {
+    position: relative;
+    width: 61.3%;              /* 239 / 390 */
+    aspect-ratio: 239 / 287;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+}
+
+.about__photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Затемняющий градиент поверх фото. */
+.about__photo::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--overlay-photo);
+    pointer-events: none;
+}
+
+/* Угловая скобка по правому и нижнему краю фото. */
+.about__bracket {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    width: 100%;
+    height: 74.6%;             /* 214 / 287 */
+    overflow: visible;
+}
+
+.about__quote {
+    position: absolute;
+    right: var(--gutter);
+    top: -8px;
+    width: 69%;
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-size: 10px;
+    line-height: 1.55;
+    text-align: right;
+    text-transform: uppercase;
+}
+
+/* Синие скобки вокруг цитаты. */
+.about__quote::before,
+.about__quote::after {
+    position: absolute;
+    color: var(--accent);
+    font-size: 14px;
+    line-height: 1;
+}
+
+.about__quote::before {
+    content: '[';
+    left: 5px;
+    top: -4px;
+}
+
+.about__quote::after {
+    content: ']';
+    right: -8px;
+    bottom: -4px;
+}
+
+/* ============================================================
+   Мой подход
+   ============================================================ */
+.approach { padding-top: 42px; }
+
+.approach__list {
+    margin: 32px 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+/* Первая колонка узкая (27px — ровно поле контейнера), номер выступает
+   из неё влево отрицательным полем и уходит за край экрана. Числа в макете:
+   бокс 75px, начинается на x=-21, то есть срезано 21px, видно 54px. */
+.approach__item {
+    display: grid;
+    grid-template-columns: 27px 1fr;
+    align-items: start;
+    column-gap: 43px;
+    margin-bottom: 30px;
+}
+
+.approach__num {
+    width: 75px;
+    margin-left: -48px;
+    font-family: var(--font-display);
+    font-weight: 200;
+    font-size: 64px;
+    line-height: .95;
+    letter-spacing: -.02em;
+    color: var(--accent);
+    text-align: right;
+}
+
+.approach__name {
+    margin: 6px 0 4px;
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 1.3;
+    color: var(--accent);
+}
+
+.approach__desc {
+    margin: 0;
+    line-height: 1.42;
+}
+
+/* ============================================================
+   Услуги
+   ============================================================ */
+.services { padding-top: 42px; }
+
+.services__list { margin-top: 30px; }
+
+/* Правый нижний угол прямой — к нему снизу примыкает кнопка-«хвостик»,
+   вместе они читаются как одна фигура. */
+.service-card {
+    position: relative;
+    margin-bottom: 68px;       /* 44 высота хвостика + 24 воздуха */
+    padding: 14px 16px 18px;
+    border: var(--hairline);
+    border-radius: var(--radius-md) var(--radius-md) 0 var(--radius-md);
+}
+
+.service-card__title {
+    margin: 0 0 12px;
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 1.3;
+    color: var(--accent);
+}
+
+.service-card__points {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.service-card__points li {
+    position: relative;
+    margin-bottom: 6px;
+    padding-left: 12px;
+    line-height: 1.42;
+}
+
+.service-card__points li:last-child { margin-bottom: 0; }
+
+.service-card__points li::before {
+    content: '\2022';
+    position: absolute;
+    left: 0;
+}
+
+.btn--tab {
+    position: absolute;
+    right: -0.8px;             /* садится на обводку карточки, а не рядом с ней */
+    bottom: -44px;
+    width: 116px;
+    padding-inline: 8px;
+    border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+}
+
+/* ============================================================
+   Отзывы
+   ============================================================ */
+.reviews { padding-top: 42px; }
+
+.reviews__carousel {
+    position: relative;
+    margin-top: 28px;
+}
+
+/* Высоту подгоняет скрипт под активный слайд — иначе под коротким отзывом
+   зияет пустота высотой с самый длинный. Без JS высота остаётся авто
+   (по самому высокому слайду), и карусель всё равно работает. */
+.reviews__viewport {
+    overflow: hidden;
+    transition: height .35s ease;
+}
+
+/* Трек — нативный горизонтальный скролл со scroll-snap: свайп пальцем
+   и трекпадом работает без JS. Скрипт добавляет только индикаторы,
+   стрелки и клавиатуру. */
+.reviews__track {
+    display: flex;
+    /* Иначе flex растянул бы все слайды по самому высокому, и подгонка
+       высоты под активный слайд стала бы бессмысленной. */
+    align-items: flex-start;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.reviews__track::-webkit-scrollbar { display: none; }
+
+.reviews__track:focus-visible { outline-offset: 4px; }
+
+.review-slide {
+    display: flex;
+    flex: 0 0 100%;
+    flex-direction: column;
+    align-items: center;
+    scroll-snap-align: center;
+}
+
+.review-slide__photo {
+    position: relative;
+    width: 173px;
+    aspect-ratio: 1;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    outline: var(--hairline);
+    outline-offset: -0.8px;
+}
+
+.review-slide__photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.review-slide__label {
+    position: absolute;
+    top: 6px;
+    font-size: 13px;
+    line-height: 1;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, .6);
+}
+
+.review-slide__label--before { left: 6px; }
+
+.review-slide__label--after {
+    left: 50%;
+    padding-left: 6px;
+}
+
+.review-slide__text {
+    max-width: 339px;
+    margin: 18px 0 0;
+    text-align: center;
+    line-height: 1.42;
+}
+
+/* Индикаторы — три горизонтальных штриха, как в макете. */
+.reviews__dots {
+    display: flex;
+    justify-content: center;
+    gap: 3px;
+    margin-top: 26px;
+}
+
+.reviews__dot {
+    width: 38px;
+    height: 3px;
+    padding: 12px 0;           /* тач-цель 38x27 при видимой полоске 3px */
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+}
+
+.reviews__dot::before {
+    content: '';
+    display: block;
+    height: 3px;
+    border-radius: 3px;
+    background: var(--text);
+    transition: background-color .2s ease;
+}
+
+.reviews__dot.is-active::before { background: var(--accent); }
+
+/* Стрелки появляются только на планшете и шире. */
+.reviews__arrow { display: none; }
+
+/* ============================================================
+   Контакты и подвал
+   ============================================================ */
+.contacts { padding-top: 42px; }
+
+.contacts__lead {
+    max-width: 356px;
+    margin: 22px auto 32px;
+    text-align: center;
+    line-height: 1.42;
+}
+
+.contacts__links {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 29px;
+}
+
+.btn--social {
+    width: 218px;
+    border-radius: var(--radius-sm);
+}
+
+.footer {
+    position: relative;
+    z-index: 1;
+    padding: 48px 0 24px;
+    text-align: center;
+}
+
+.footer__note {
+    margin: 0;
+    font-size: 12px;
+    opacity: .45;
+}
+
+/* ============================================================
+   Появление блоков при скролле
+
+   Начальная прозрачность действует только при живом JS и только если
+   пользователь не просил убрать анимации — иначе контент виден всегда
+   и страница не может остаться пустой.
+   ============================================================ */
+@media (prefers-reduced-motion: no-preference) {
+    .js-enabled [data-reveal] {
+        opacity: 0;
+        transform: translateY(16px);
+        transition: opacity .5s ease, transform .5s ease;
+    }
+
+    .js-enabled [data-reveal].is-visible {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+/* ============================================================
+   Планшет
+   ============================================================ */
+@media (min-width: 768px) {
+    :root {
+        --container: 720px;
+        --gutter: 32px;
+    }
+
+    body { font-size: 15px; }
+
+    .section-title { font-size: 38px; }
+
+    .hero__caption { top: 96px; }
+    .hero__title { font-size: 42px; }
+    .hero__role { font-size: 15px; }
+
+    .approach__list {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 32px;
+    }
+
+    /* В две колонки номер уже нельзя выносить за край экрана — правая
+       колонка наезжала бы на левую. Прижимаем его к краю своей ячейки. */
+    .approach__item {
+        grid-template-columns: auto 1fr;
+        column-gap: 14px;
+    }
+
+    .approach__num {
+        width: auto;
+        margin-left: 0;
+        font-size: 56px;
+    }
+
+    /* Карточки остаются колонкой, но не растягиваются: две колонки дают
+       либо сироту в полряда, либо растянутую третью. Три в ряд — на десктопе. */
+    .service-card {
+        max-width: 480px;
+        margin-inline: auto;
+    }
+
+    .review-slide__photo { width: 240px; }
+    .review-slide__text { max-width: 480px; }
+
+    .reviews__arrow {
+        position: absolute;
+        top: 120px;
+        z-index: 2;
+        display: grid;
+        place-items: center;
+        width: 44px;
+        height: 44px;
+        border: var(--hairline);
+        border-radius: 50%;
+        background: rgba(17, 17, 17, .6);
+        color: var(--text);
+        font-size: 18px;
+        cursor: pointer;
+        transition: background-color .2s ease;
+    }
+
+    .reviews__arrow:hover { background: var(--accent); }
+    .reviews__arrow--prev { left: 0; }
+    .reviews__arrow--next { right: 0; }
+
+    .contacts__links {
+        flex-direction: row;
+        justify-content: center;
+        gap: 20px;
+    }
+}
+
+/* ============================================================
+   Десктоп
+   ============================================================ */
+@media (min-width: 1024px) {
+    :root {
+        --container: 1120px;
+        --gutter: 40px;
+    }
+
+    .section-title { font-size: 44px; }
+
+    /* Hero в две колонки: слева фото, справа имя и подпись. */
+    .hero { padding-top: calc(var(--nav-h) + 40px); }
+
+    .hero__inner {
+        display: grid;
+        grid-template-columns: minmax(0, 460px) 1fr;
+        align-items: center;
+        gap: 48px;
+        max-width: var(--container);
+        margin-inline: auto;
+        padding-inline: var(--gutter);
+    }
+
+    .hero__media {
+        aspect-ratio: 460 / 560;
+        border-radius: var(--radius-md);
+    }
+
+    .hero__caption {
+        position: static;
+        text-align: left;
+    }
+
+    .hero__title { font-size: 64px; }
+
+    .hero__role {
+        margin-top: 16px;
+        font-size: 18px;
+    }
+
+    .hero__rule { margin-top: 48px; }
+
+    .about__text {
+        columns: 2;
+        column-gap: 48px;
+    }
+
+    .about__figure {
+        display: grid;
+        grid-template-columns: 320px 1fr;
+        align-items: start;
+        gap: 40px;
+        max-width: var(--container);
+        margin-inline: auto;
+        padding-inline: var(--gutter);
+    }
+
+    .about__photo { width: 100%; }
+
+    .about__quote {
+        position: static;
+        width: auto;
+        padding: 8px 16px;
+        font-size: 14px;
+        text-align: left;
+    }
+
+    .about__quote::before {
+        left: 0;
+        top: 0;
+    }
+
+    .about__quote::after {
+        right: auto;
+        left: 0;
+        bottom: 0;
+    }
+
+    .services__list {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        align-items: stretch;
+        gap: 24px;
+    }
+
+    .service-card {
+        display: flex;
+        flex-direction: column;
+        max-width: none;
+        margin-inline: 0;
+    }
+
+    .service-card__points { flex: 1; }
+
+    .reviews__arrow {
+        top: 50%;
+        translate: 0 -50%;
+    }
+
+    .reviews__arrow--prev { left: -8px; }
+    .reviews__arrow--next { right: -8px; }
+
+    .review-slide__photo { width: 280px; }
+
+    .review-slide__text {
+        max-width: 620px;
+        font-size: 15px;
+    }
+}
+
+/* ============================================================
+   Уважение к настройке «меньше движения»
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+    }
+}

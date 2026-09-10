@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Андрей Снегуров — персональный фитнес-тренер. Индивидуальные программы тренировок, коррекционный тренинг, онлайн-сопровождение.">
+
+    <meta property="og:title" content="Андрей Снегуров — персональный фитнес-тренер">
+    <meta property="og:description" content="Индивидуальные программы тренировок, коррекционный тренинг и онлайн-сопровождение.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="assets/hero-andrew.png">
+
+    <title>Андрей Снегуров — персональный фитнес-тренер</title>
+
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@200;300;400&family=Montserrat+Alternates:wght@400;500&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- ============================================================
+         Навигация
+         ============================================================ -->
+    <header class="nav">
+        <nav aria-label="Основная навигация">
+            <ul class="nav__list">
+                <li><a class="nav__link" href="#hero">главная</a></li>
+                <li><a class="nav__link" href="#services">услуги</a></li>
+                <li><a class="nav__link" href="#reviews">отзывы</a></li>
+                <li><a class="nav__link" href="#contacts">контакты</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- ============================================================
+             Hero
+             ============================================================ -->
+        <section class="section hero" id="hero" aria-labelledby="hero-title">
+            <div class="glow" style="--glow-x: 256px; --glow-y: -7px; --glow-size: 161px" aria-hidden="true"></div>
+
+            <div class="hero__inner">
+                <!-- Ломаная идёт первой: в макете она лежит за фигурой. -->
+                <div class="hero__media">
+                    <img class="hero__lines" src="assets/hero-lines.svg" alt="" aria-hidden="true">
+                    <img class="hero__photo hero__photo--blur" src="assets/hero-andrew.png" alt="" aria-hidden="true">
+                    <img class="hero__photo" src="assets/hero-andrew.png"
+                         alt="Андрей Снегуров, персональный фитнес-тренер" width="862" height="1288">
+                </div>
+
+                <div class="hero__caption">
+                    <h1 class="hero__title" id="hero-title">Андрей<br>Снегуров</h1>
+                    <p class="hero__role">персональный<br>фитнес-тренер</p>
+                </div>
+            </div>
+
+            <div class="hero__rule" aria-hidden="true"></div>
+        </section>
+
+        <!-- ============================================================
+             Слоган и первый CTA
+             ============================================================ -->
+        <section class="section intro" aria-label="Кратко о подходе">
+            <div class="glow" style="--glow-x: -33px; --glow-y: 96px; --glow-size: 161px" aria-hidden="true"></div>
+            <div class="container">
+                <p class="intro__text" data-reveal>
+                    Моя задача - разбудить вашего внутреннего чемпиона и помочь достичь ваших целей,
+                    сохраняя здоровье и правильную работу вашего организма
+                </p>
+                <a class="btn btn--wide" href="https://t.me/CHANGE_ME" target="_blank" rel="noopener noreferrer" data-reveal>
+                    Записаться на тренировку
+                    <img class="btn__arrow" src="assets/arrow-right.svg" alt="" aria-hidden="true" width="24" height="24">
+                </a>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             Обо мне
+             ============================================================ -->
+        <section class="section about" id="about" aria-labelledby="about-title">
+            <div class="container">
+                <h2 class="section-title" id="about-title" data-reveal>Обо мне</h2>
+
+                <div class="about__text" data-reveal>
+                    <p>Я - Андрей, персональный фитнес-тренер со стажем более 3 лет. Помогаю достигать
+                    целей в тренировках, <span class="accent">учитывая индивидуальные особенности,
+                    запросы и уровень подготовки.</span></p>
+
+                    <p>В моей работе главное - <span class="accent">грамотный подход, комфорт и
+                    постепенный прогресс.</span> Я разрабатываю индивидуальные программы тренировок,
+                    подбираю подходящие упражнения и помогаю выстроить эффективный путь к результату.
+                    <span class="accent">Каждая программа адаптируется под вас,</span> чтобы тренировки
+                    были не только эффективными, но и комфортными.</p>
+                </div>
+            </div>
+
+            <figure class="about__figure" data-reveal>
+                <div class="about__photo">
+                    <img src="assets/about-andrew.png" alt="Андрей на тренировке" width="478" height="574" loading="lazy">
+                    <svg class="about__bracket" viewBox="0 0 239.8 214.8" fill="none" aria-hidden="true" preserveAspectRatio="none">
+                        <path d="M239.4 0.4V198.4C239.4 207.237 232.237 214.4 223.4 214.4H0.4"
+                              stroke="#008CFF" stroke-width="0.8" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <figcaption class="about__quote">
+                    Моя цель - сделать так, чтобы вы не просто достигали желаемого результата,
+                    но и чувствовали себя уверенно и комфортно на пути к нему
+                </figcaption>
+            </figure>
+        </section>
+
+        <!-- ============================================================
+             Мой подход
+             ============================================================ -->
+        <section class="section approach" id="approach" aria-labelledby="approach-title">
+            <div class="glow" style="--glow-x: -53px; --glow-y: 147px; --glow-size: 154px" aria-hidden="true"></div>
+            <div class="container">
+                <h2 class="section-title" id="approach-title" data-reveal>Мой подход</h2>
+
+                <ol class="approach__list">
+                    <li class="approach__item" data-reveal>
+                        <span class="approach__num" aria-hidden="true">01</span>
+                        <div class="approach__body">
+                            <h3 class="approach__name">Индивидуальная программа</h3>
+                            <p class="approach__desc">Учитываю ваши цели, уровень подготовки и особенности,
+                            чтобы подобрать оптимальную нагрузку</p>
+                        </div>
+                    </li>
+                    <li class="approach__item" data-reveal>
+                        <span class="approach__num" aria-hidden="true">02</span>
+                        <div class="approach__body">
+                            <h3 class="approach__name">Коррекционный тренинг</h3>
+                            <p class="approach__desc">Работаю с дисбалансами тела, устранением боли в спине,
+                            улучшением осанки и возвращением суставам нормальную подвижность</p>
+                        </div>
+                    </li>
+                    <li class="approach__item" data-reveal>
+                        <span class="approach__num" aria-hidden="true">03</span>
+                        <div class="approach__body">
+                            <h3 class="approach__name">Комфортные тренировки</h3>
+                            <p class="approach__desc">Подбираю упражнения, которые подходят именно вам
+                            и помогают чувствовать себя уверенно на тренировках</p>
+                        </div>
+                    </li>
+                    <li class="approach__item" data-reveal>
+                        <span class="approach__num" aria-hidden="true">04</span>
+                        <div class="approach__body">
+                            <h3 class="approach__name">Фокус на результат</h3>
+                            <p class="approach__desc">Отслеживаем прогресс и корректируем программу,
+                            чтобы тренировки действительно приносили результат</p>
+                        </div>
+                    </li>
+                </ol>
+
+                <a class="btn btn--wide" href="https://t.me/CHANGE_ME" target="_blank" rel="noopener noreferrer" data-reveal>
+                    Сделать первый шаг
+                    <img class="btn__arrow" src="assets/arrow-right.svg" alt="" aria-hidden="true" width="24" height="24">
+                </a>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             Услуги
+             ============================================================ -->
+        <section class="section services" id="services" aria-labelledby="services-title">
+            <div class="glow" style="--glow-x: 268px; --glow-y: 41px; --glow-size: 154px" aria-hidden="true"></div>
+            <div class="container">
+                <h2 class="section-title" id="services-title" data-reveal>Услуги</h2>
+
+                <div class="services__list">
+                    <article class="service-card" data-reveal>
+                        <h3 class="service-card__title">Персональная тренировка</h3>
+                        <ul class="service-card__points">
+                            <li>Предварительная консультация</li>
+                            <li>Контроль техники и прогрессии на каждом этапе</li>
+                            <li>Гибкий график и возможность заниматься в удобное для вас время</li>
+                            <li>Рекомендации по питанию, расчет КБЖУ</li>
+                        </ul>
+                        <a class="btn btn--tab" href="https://t.me/CHANGE_ME" target="_blank" rel="noopener noreferrer"
+                           aria-label="Начать: персональная тренировка">Начать</a>
+                    </article>
+
+                    <article class="service-card" data-reveal>
+                        <h3 class="service-card__title">Индивидуальная программа тренировок</h3>
+                        <ul class="service-card__points">
+                            <li>Индивидуальная программа под ваши цели (Похудение, Набор мышечной массы,
+                                Поддержка формы, Улучшение пропорций)</li>
+                            <li>Разбор техники по видеоотчётам/Обратная связь</li>
+                            <li>Еженедельные отчеты/Корректировка плана</li>
+                        </ul>
+                        <a class="btn btn--tab" href="https://t.me/CHANGE_ME" target="_blank" rel="noopener noreferrer"
+                           aria-label="Начать: индивидуальная программа тренировок">Начать</a>
+                    </article>
+
+                    <article class="service-card" data-reveal>
+                        <h3 class="service-card__title">Онлайн-сопровождение</h3>
+                        <ul class="service-card__points">
+                            <li>Предварительная консультация</li>
+                            <li>Индивидуальная программа под ваши цели (Похудение, Набор мышечной массы,
+                                Поддержка формы, Улучшение пропорций)</li>
+                            <li>Разбор техники по видеоотчётам/Обратная связь</li>
+                            <li>Питание: расчёт КБЖУ, индивидуальные рекомендации под ваши цели,
+                                ежедневная проверка</li>
+                            <li>Еженедельные отчеты/Корректировка плана</li>
+                        </ul>
+                        <a class="btn btn--tab" href="https://t.me/CHANGE_ME" target="_blank" rel="noopener noreferrer"
+                           aria-label="Начать: онлайн-сопровождение">Начать</a>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             Отзывы
+             ============================================================ -->
+        <section class="section reviews" id="reviews" aria-labelledby="reviews-title">
+            <div class="glow" style="--glow-x: -71px; --glow-y: 60px; --glow-size: 154px" aria-hidden="true"></div>
+            <div class="container">
+                <h2 class="section-title" id="reviews-title" data-reveal>Отзывы</h2>
+
+                <div class="reviews__carousel" data-carousel data-reveal>
+                    <button class="reviews__arrow reviews__arrow--prev" type="button" aria-label="Предыдущий отзыв">
+                        <span aria-hidden="true">&#8592;</span>
+                    </button>
+
+                    <div class="reviews__viewport">
+                        <ul class="reviews__track" role="region" tabindex="0"
+                            aria-roledescription="carousel" aria-label="Отзывы клиентов">
+                            <li class="review-slide" role="group" aria-roledescription="слайд" aria-label="1 из 3">
+                                <div class="review-slide__photo">
+                                    <img src="assets/review-1.png" alt="Осанка клиентки до и после тренировок"
+                                         width="346" height="346" loading="lazy">
+                                    <span class="review-slide__label review-slide__label--before">До</span>
+                                    <span class="review-slide__label review-slide__label--after">После</span>
+                                </div>
+                                <p class="review-slide__text">Сегодня была лёгкая, но очень полезная тренировка.
+                                Мне всё очень понравилось, было не сложно, и после тренировки чувствовала себя
+                                отлично. Самое интересное — действительно почувствовала разницу в том, как я
+                                ступаю на ногу. Сравнила, как я проходилась по залу и приседала до тренировки
+                                и после — эффект заметен сразу! Спасибо!</p>
+                            </li>
+
+                            <li class="review-slide" role="group" aria-roledescription="слайд" aria-label="2 из 3">
+                                <div class="review-slide__photo">
+                                    <img src="assets/review-2.png" alt="Телосложение клиента до и после тренировок"
+                                         width="346" height="346" loading="lazy">
+                                    <span class="review-slide__label review-slide__label--before">До</span>
+                                    <span class="review-slide__label review-slide__label--after">После</span>
+                                </div>
+                                <p class="review-slide__text">Цель была убрать пару лишних килограммов и привести
+                                тело в порядок. В целом тяжело не было, потому что достаточно быстро втянулся
+                                как в тренировки, так и в режим питания и стал получать от всего этого
+                                удовольствие, поэтому не сказал бы, что мне было вообще тяжело. Получилось
+                                не то что достигнуть, но и превзойти свои ожидания.</p>
+                            </li>
+
+                            <li class="review-slide" role="group" aria-roledescription="слайд" aria-label="3 из 3">
+                                <div class="review-slide__photo">
+                                    <img src="assets/review-3.png" alt="Осанка клиентки до и после тренировок, вид сбоку"
+                                         width="346" height="346" loading="lazy">
+                                </div>
+                                <p class="review-slide__text">Начав заниматься, я и не думала, что ты сможешь мне
+                                помочь и с другими моими проблемами! Такими, как боль в спине, в области лопаток
+                                и пояснице, боль в коленях, ну и, конечно, проблемами с осанкой. Мне очень повезло
+                                с тобой! Некоторые упражнения казались странными, но оказались очень эффективными.
+                                А некоторые казались невыполнимыми. Но когда со временем получается то, что казалось
+                                невозможным для меня, это просто 😌 Сейчас, после видимого результата, чувствую себя
+                                намного лучше и физически и морально. Главное, что не болит спина, колени.
+                                Я чувствую себя бодрее, сильнее и, наверное, симпатичнее 😊</p>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <button class="reviews__arrow reviews__arrow--next" type="button" aria-label="Следующий отзыв">
+                        <span aria-hidden="true">&#8594;</span>
+                    </button>
+
+                    <div class="reviews__dots">
+                        <button class="reviews__dot is-active" type="button"
+                                aria-label="Отзыв 1" aria-current="true"></button>
+                        <button class="reviews__dot" type="button" aria-label="Отзыв 2"></button>
+                        <button class="reviews__dot" type="button" aria-label="Отзыв 3"></button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             Контакты
+             ============================================================ -->
+        <section class="section contacts" id="contacts" aria-labelledby="contacts-title">
+            <div class="glow" style="--glow-x: 263px; --glow-y: 225px; --glow-size: 154px" aria-hidden="true"></div>
+            <div class="container">
+                <h2 class="section-title" id="contacts-title" data-reveal>Контакты</h2>
+
+                <p class="contacts__lead" data-reveal>
+                    Не пропускай новые программы и полезные материалы. Подписывайся!
+                </p>
+
+                <div class="contacts__links" data-reveal>
+                    <a class="btn btn--social" href="https://t.me/CHANGE_ME" target="_blank" rel="noopener noreferrer">Telegram</a>
+                    <a class="btn btn--social" href="https://vk.com/CHANGE_ME" target="_blank" rel="noopener noreferrer">VK</a>
+                    <a class="btn btn--social" href="https://instagram.com/CHANGE_ME" target="_blank" rel="noopener noreferrer">Instagram</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p class="footer__note">© 2026 Андрей Снегуров</p>
+    </footer>
+
+    <script src="script.js" defer></script>
+</body>
+</html>
