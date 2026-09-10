@@ -38,13 +38,9 @@
 html {
     scroll-behavior: smooth;
     scroll-padding-top: var(--nav-h);
-    /* Декоративные элементы намеренно выходят за края экрана (номера 01-04,
-       свечения, размытая копия hero-фото) — прокрутки по горизонтали быть
-       не должно. Обрезаем один раз на корне: обрезать сами секции нельзя,
-       иначе у свечений появится резкий край вместо мягкого градиента.
-       `clip` предпочтительнее `hidden`: он не делает элемент скролл-контейнером
-       и не превращает overflow-y в auto. Строка с `hidden` — запасной вариант
-       для браузеров без поддержки `clip`. */
+    /* Страховка: основная обрезка боковых выносов живёт на .section,
+       но браузеры без поддержки `overflow: clip` её проигнорируют —
+       для них срабатывает `hidden` здесь, на корне. */
     overflow-x: hidden;
     overflow-x: clip;
 }
@@ -209,13 +205,24 @@ a { color: inherit; }
 
 /* ============================================================
    Hero
-   ============================================================ */
-.hero { padding-top: 8px; }
 
-.hero__inner { position: relative; }
+   Сетка на самой секции: на мобильном одна колонка (фото — полоса —
+   слоган с кнопкой), на десктопе фото слева, а имя, слоган и кнопка
+   собираются в правую колонку. Подпись на мобильном лежит абсолютом
+   поверх фото, на десктопе встаёт в поток.
+   ============================================================ */
+.hero {
+    display: grid;
+    padding-top: 8px;
+    grid-template-areas:
+        'media'
+        'rule'
+        'pitch';
+}
 
 .hero__media {
     position: relative;
+    grid-area: media;
     aspect-ratio: 390 / 404;
     overflow: hidden;
 }
@@ -251,7 +258,7 @@ a { color: inherit; }
 .hero__caption {
     position: absolute;
     right: var(--gutter);
-    top: 74px;
+    top: 82px;
     z-index: 2;
     text-align: right;
 }
@@ -273,16 +280,20 @@ a { color: inherit; }
 }
 
 .hero__rule {
+    grid-area: rule;
     height: 8px;
     background: var(--accent);
 }
 
-/* ============================================================
-   Слоган и первый CTA
-   ============================================================ */
-.intro { padding-top: 27px; }
+.hero__pitch {
+    grid-area: pitch;
+    width: 100%;
+    max-width: var(--container);
+    margin-inline: auto;
+    padding: 27px var(--gutter) 0;
+}
 
-.intro__text {
+.hero__slogan {
     max-width: 350px;
     margin: 0 auto 24px;
     text-align: center;
@@ -668,9 +679,32 @@ a { color: inherit; }
 
     .section-title { font-size: 38px; }
 
+    /* На широком экране space-between растащил бы четыре пункта
+       по самым краям — собираем их по центру. */
+    .nav__list {
+        justify-content: center;
+        gap: 48px;
+    }
+
+    /* Координаты свечений взяты из макета шириной 390px. На широком экране
+       те, что в макете прижаты к правому краю, надо привязать к правому краю,
+       иначе они уезжают в середину. */
+    .glow--right {
+        left: auto;
+        right: -40px;
+    }
+
     .hero__caption { top: 96px; }
     .hero__title { font-size: 42px; }
     .hero__role { font-size: 15px; }
+
+    /* Кнопка во всю ширину контейнера на 720px читается как баннер —
+       ограничиваем и центрируем. */
+    .hero__pitch .btn--wide,
+    .approach .btn--wide {
+        max-width: 420px;
+        margin-inline: auto;
+    }
 
     .approach__list {
         display: grid;
@@ -740,26 +774,36 @@ a { color: inherit; }
 
     .section-title { font-size: 44px; }
 
-    /* Hero в две колонки: слева фото, справа имя и подпись. */
-    .hero { padding-top: calc(var(--nav-h) + 40px); }
-
-    .hero__inner {
-        display: grid;
-        grid-template-columns: minmax(0, 460px) 1fr;
-        align-items: center;
-        gap: 48px;
-        max-width: var(--container);
-        margin-inline: auto;
-        padding-inline: var(--gutter);
+    /* Hero в две колонки: слева фото, справа имя, слоган и кнопка.
+       Крайние колонки — поля; синяя полоса при этом остаётся во всю
+       ширину экрана, поэтому она занимает отдельный ряд на все колонки.
+       Промежуток между колонками задан отдельной колонкой 48px, а не
+       column-gap, иначе зазор появился бы и у крайних полей. */
+    .hero {
+        grid-template-columns:
+            minmax(var(--gutter), 1fr)
+            minmax(0, 460px)
+            48px
+            minmax(0, 612px)
+            minmax(var(--gutter), 1fr);
+        grid-template-areas:
+            '.    media .    caption .'
+            '.    media .    pitch   .'
+            'rule rule  rule rule    rule';
+        padding-top: calc(var(--nav-h) + 40px);
     }
 
     .hero__media {
+        align-self: start;
         aspect-ratio: 460 / 560;
         border-radius: var(--radius-md);
     }
 
     .hero__caption {
         position: static;
+        grid-area: caption;
+        align-self: end;
+        padding-bottom: 24px;
         text-align: left;
     }
 
@@ -770,18 +814,41 @@ a { color: inherit; }
         font-size: 18px;
     }
 
+    .hero__pitch {
+        align-self: start;
+        max-width: none;
+        margin-inline: 0;
+        padding: 0;
+    }
+
+    .hero__slogan {
+        max-width: 520px;
+        margin-inline: 0;
+        font-size: 16px;
+        line-height: 1.5;
+        text-align: left;
+    }
+
+    .hero__pitch .btn--wide { max-width: 420px; }
+
     .hero__rule { margin-top: 48px; }
 
+    /* Две колонки, но не через `columns`: тот разрезал бы абзац посередине,
+       и вторая колонка начиналась бы с середины фразы. Здесь колонка —
+       это абзац целиком. */
     .about__text {
-        columns: 2;
-        column-gap: 48px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 48px;
     }
+
+    .about__text p { margin-bottom: 0; }
 
     .about__figure {
         display: grid;
         grid-template-columns: 320px 1fr;
-        align-items: start;
-        gap: 40px;
+        align-items: center;
+        gap: 56px;
         max-width: var(--container);
         margin-inline: auto;
         padding-inline: var(--gutter);
@@ -790,22 +857,25 @@ a { color: inherit; }
     .about__photo { width: 100%; }
 
     .about__quote {
-        position: static;
+        position: relative;
         width: auto;
-        padding: 8px 16px;
+        max-width: 460px;
+        padding: 12px 20px;
         font-size: 14px;
+        line-height: 1.7;
         text-align: left;
     }
 
     .about__quote::before {
         left: 0;
         top: 0;
+        font-size: 20px;
     }
 
     .about__quote::after {
-        right: auto;
-        left: 0;
+        right: 0;
         bottom: 0;
+        font-size: 20px;
     }
 
     .services__list {
@@ -823,6 +893,13 @@ a { color: inherit; }
     }
 
     .service-card__points { flex: 1; }
+
+    /* Без ограничения ширины стрелки уезжают к самым краям контейнера
+       на 1120px и теряют связь с фото. */
+    .reviews__carousel {
+        max-width: 720px;
+        margin-inline: auto;
+    }
 
     .reviews__arrow {
         top: 50%;
