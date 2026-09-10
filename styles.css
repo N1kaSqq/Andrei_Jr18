@@ -183,12 +183,21 @@ a { color: inherit; }
 }
 
 .nav__link {
+    position: relative;
     display: block;
     padding: 6px 2px;
     font-size: 13px;
     text-decoration: none;
     opacity: .85;
     transition: opacity .2s ease, text-shadow .2s ease;
+}
+
+/* Полоса меню ровно 42px по макету, а палец требует 44. Расширяем
+   область нажатия невидимым псевдоэлементом, не трогая вид. */
+.nav__link::after {
+    content: '';
+    position: absolute;
+    inset: -7px -10px;
 }
 
 .nav__link:hover { opacity: 1; }
@@ -583,13 +592,15 @@ a { color: inherit; }
     display: flex;
     justify-content: center;
     gap: 3px;
-    margin-top: 26px;
+    /* Отступ visually 27px, как в макете: 6 своих + 21 паддинга кнопки. */
+    margin-top: 6px;
 }
 
+/* Видимая часть — полоска 38x3 (псевдоэлемент), но нажимать нужно
+   по площади 38x45, иначе в неё не попасть пальцем. */
 .reviews__dot {
     width: 38px;
-    height: 3px;
-    padding: 12px 0;           /* тач-цель 38x27 при видимой полоске 3px */
+    padding: 21px 0;
     border: 0;
     background: transparent;
     cursor: pointer;

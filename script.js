@@ -14,22 +14,20 @@ document.documentElement.classList.add('js-enabled');
    Подсветка активного пункта меню
    ============================================================ */
 (function activeNav() {
-    const links = [...document.querySelectorAll('.nav__link')];
-    if (links.length === 0) return;
+    const navHeight = document.querySelector('.nav')?.offsetHeight || 42;
+    const targets = [];
 
-    const linkBySection = new Map();
-
-    links.forEach((link) => {
+    document.querySelectorAll('.nav__link').forEach((link) => {
         const hash = link.getAttribute('href');
         if (!hash || !hash.startsWith('#')) return;
         const section = document.querySelector(hash);
-        if (section) linkBySection.set(section, link);
+        if (section) targets.push({ link, section });
     });
 
-    if (linkBySection.size === 0) return;
+    if (targets.length === 0) return;
 
     function activate(link) {
-        links.forEach((item) => {
+        targets.forEach(({ link: item }) => {
             const isActive = item === link;
             item.classList.toggle('is-active', isActive);
             if (isActive) item.setAttribute('aria-current', 'true');
@@ -37,15 +35,41 @@ document.documentElement.classList.add('js-enabled');
         });
     }
 
-    const observer = new IntersectionObserver((entries) => {
-        // Активной считаем самую верхнюю из секций, попавших в кадр.
-        const visible = entries
-            .filter((entry) => entry.isIntersecting)
-            .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
-        if (visible.length > 0) activate(linkBySection.get(visible[0].target));
-    }, { rootMargin: '-42px 0px -66% 0px' });
+    function update() {
+        // Последнюю секцию часто невозможно доскроллить до верха экрана —
+        // под ней просто нет контента. Поэтому у самого низа страницы
+        // активным всегда считаем последний пункт, иначе подсветка
+        // застревает на предыдущем.
+        const atBottom = window.scrollY + window.innerHeight
+            >= document.documentElement.scrollHeight - 2;
+        if (atBottom) {
+            activate(targets[targets.length - 1].link);
+            return;
+        }
 
-    linkBySection.forEach((_link, section) => observer.observe(section));
+        // Иначе активна последняя секция, начало которой уже прошло
+        // под нижним краем меню.
+        const line = window.scrollY + navHeight + 1;
+        let active = targets[0].link;
+        targets.forEach(({ link, section }) => {
+            if (section.getBoundingClientRect().top + window.scrollY <= line) active = link;
+        });
+        activate(active);
+    }
+
+    let ticking = false;
+    function onScroll() {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => {
+            ticking = false;
+            update();
+        });
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    update();
 }());
 
 /* ============================================================
