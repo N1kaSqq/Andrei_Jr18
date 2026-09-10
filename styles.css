@@ -421,7 +421,11 @@ a { color: inherit; }
 
 .approach__num {
     width: 75px;
-    margin-left: -48px;
+    /* -48px поставило бы правый край бокса ровно как в макете, но у Exo 2
+       цифры уже, чем у шрифта макета (60px против 75px), и срезалось бы
+       всего 9% вместо 28%. Дополнительные -12px восстанавливают ту же
+       долю среза, что и в оригинале. */
+    margin-left: -60px;
     font-family: var(--font-display);
     font-weight: 200;
     font-size: 64px;
