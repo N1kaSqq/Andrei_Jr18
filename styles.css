@@ -101,11 +101,27 @@ a { color: inherit; }
 
 .accent { color: var(--accent); }
 
+/* Видно только скринридеру: служебные подписи и статус карусели. */
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
 /* Размытые синие пятна фона. Позиция и размер задаются инлайном
    через --glow-x / --glow-y / --glow-size. */
 .glow {
     position: absolute;
-    z-index: 0;
+    /* Именно -1, а не 0: позиционированный элемент с уровнем стека 0
+       красится ПОСЛЕ непозиционированного текста секции, то есть поверх
+       него. Отрицательный уровень уводит свечение под контент. */
+    z-index: -1;
     left: var(--glow-x, 0);
     top: var(--glow-y, 0);
     width: var(--glow-size, 154px);
@@ -188,8 +204,7 @@ a { color: inherit; }
     padding: 6px 2px;
     font-size: 13px;
     text-decoration: none;
-    opacity: .85;
-    transition: opacity .2s ease, text-shadow .2s ease;
+    transition: text-shadow .2s ease;
 }
 
 /* Полоса меню ровно 42px по макету, а палец требует 44. Расширяем
@@ -200,14 +215,11 @@ a { color: inherit; }
     inset: -7px -10px;
 }
 
-.nav__link:hover { opacity: 1; }
-
 /* Ссылки лежат на сплошной синей полосе — синяя обводка фокуса
    по умолчанию на ней не видна. */
 .nav__link:focus-visible { outline-color: var(--text); }
 
 .nav__link.is-active {
-    opacity: 1;
     font-weight: 500;
     text-shadow: 0 0 12px rgba(255, 255, 255, .5);
 }
@@ -745,6 +757,15 @@ a { color: inherit; }
     .service-card {
         max-width: 480px;
         margin-inline: auto;
+    }
+
+    /* .about__figure — брат .container, а не он сам, поэтому ширину
+       контейнера получает отдельным правилом. На мобильном этого делать
+       нельзя: там фото по макету прижато к самому краю экрана. */
+    .about__figure {
+        max-width: var(--container);
+        margin-inline: auto;
+        padding-inline: var(--gutter);
     }
 
     .review-slide__photo { width: 240px; }

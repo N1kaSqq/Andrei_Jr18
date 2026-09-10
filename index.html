@@ -278,6 +278,12 @@
                         <button class="reviews__dot" type="button" aria-label="Отзыв 2"></button>
                         <button class="reviews__dot" type="button" aria-label="Отзыв 3"></button>
                     </div>
+
+                    <!-- Смена слайда — это горизонтальный скролл: текст на странице
+                         не меняется и фокус никуда не уходит, поэтому без этого
+                         сообщения скринридер о переключении молчит. -->
+                    <p class="visually-hidden" aria-live="polite" aria-atomic="true"
+                       data-carousel-status></p>
                 </div>
             </div>
         </section>

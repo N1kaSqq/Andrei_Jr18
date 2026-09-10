@@ -90,6 +90,7 @@ document.documentElement.classList.add('js-enabled');
     const dots = [...root.querySelectorAll('.reviews__dot')];
     const prev = root.querySelector('.reviews__arrow--prev');
     const next = root.querySelector('.reviews__arrow--next');
+    const status = root.querySelector('[data-carousel-status]');
     if (!track || slides.length === 0) return;
 
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -105,6 +106,10 @@ document.documentElement.classList.add('js-enabled');
     function goTo(index) {
         // Зацикливаем: с последнего «вперёд» ведёт на первый.
         const target = (index + slides.length) % slides.length;
+        // Обновляем состояние сразу, не дожидаясь события scroll: плавная
+        // прокрутка длится ~300ms, и без этого второе быстрое нажатие
+        // стрелки считало бы следующий индекс от устаревшего current.
+        setActive(target);
         track.scrollTo({
             left: track.clientWidth * target,
             behavior: reduceMotion.matches ? 'auto' : 'smooth',
@@ -112,13 +117,20 @@ document.documentElement.classList.add('js-enabled');
     }
 
     function setActive(index) {
-        if (index === current) return;
-        current = index;
+        // Резиновый отскок в iOS Safari на мгновение даёт scrollLeft за
+        // пределами трека, а из него — индекс -1 или 3. Без ограничения
+        // это уронило бы syncHeight() на slides[-1].scrollHeight.
+        const clamped = Math.max(0, Math.min(slides.length - 1, index));
+        if (clamped === current) return;
+        current = clamped;
         dots.forEach((dot, i) => {
-            dot.classList.toggle('is-active', i === index);
-            if (i === index) dot.setAttribute('aria-current', 'true');
+            dot.classList.toggle('is-active', i === current);
+            if (i === current) dot.setAttribute('aria-current', 'true');
             else dot.removeAttribute('aria-current');
         });
+        // Скринридеру смена слайда иначе никак не слышна: скролл трека
+        // не меняет текст, а фокус остаётся на кнопке.
+        if (status) status.textContent = `Отзыв ${current + 1} из ${slides.length}`;
         syncHeight();
     }
 
