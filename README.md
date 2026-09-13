@@ -46,7 +46,7 @@ npx serve .
 
 1. Создать **публичный** репозиторий на GitHub и запушить туда содержимое этой папки.
 2. Settings → Pages → Source: `Deploy from a branch`, ветка `main`, папка `/ (root)`.
-3. Через минуту сайт будет на `https://<логин>.github.io/<репозиторий>`.
+3. Через минуту сайт будет на `https://n1kasqq.github.io/Andrei_Jr18/`, а после привязки домена — на `https://andrei-snegurov.online`.
 
 В корне лежит пустой `.nojekyll` — он отключает сборку Jekyll, иначе GitHub превратил бы `README.md`, `TODO.md` и документацию в `docs/` в отдельные HTML-страницы.
 
@@ -60,11 +60,9 @@ npx serve .
 | A | `@` | `185.199.109.153` | 3600 |
 | A | `@` | `185.199.110.153` | 3600 |
 | A | `@` | `185.199.111.153` | 3600 |
-| CNAME | `www` | `<логин>.github.io` | 3600 |
+| CNAME | `www` | `n1kasqq.github.io` | 3600 |
 
-Затем в Settings → Pages → Custom domain вписать домен, дождаться зелёной галочки DNS (от пары минут до часа) и включить **Enforce HTTPS**. GitHub сам создаст в репозитории файл `CNAME` с доменом — его нужно закоммитить, иначе следующий push его сотрёт.
-
-После этого поправить `og:image` на абсолютный адрес — см. `TODO.md`.
+Затем в Settings → Pages → Custom domain вписать `andrei-snegurov.online`, дождаться зелёной галочки DNS (от пары минут до часа) и включить **Enforce HTTPS**. Файл `CNAME` с доменом уже лежит в корне репозитория — GitHub подхватит его сам.
 
 ### Netlify
 
