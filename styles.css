@@ -4,6 +4,19 @@
    ============================================================ */
 
 /* ============================================================
+   Шрифты
+   ============================================================ */
+/* Оригинальный дисплейный шрифт из макета. У него одно начертание,
+   поэтому все заголовки и кнопки используют вес 400. */
+@font-face {
+    font-family: 'Electrolize RUS';
+    src: url('assets/fonts/electrolize-rus.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* ============================================================
    Токены
    ============================================================ */
 :root {
@@ -16,7 +29,7 @@
         rgba(17, 17, 17, .16) 69.5%,
         #10181E 91%);
 
-    --font-display: 'Exo 2', 'Segoe UI', sans-serif;
+    --font-display: 'Electrolize RUS', 'Segoe UI', sans-serif;
     --font-body: 'Montserrat Alternates', 'Segoe UI', sans-serif;
 
     --radius-sm: 8px;
@@ -91,7 +104,7 @@ a { color: inherit; }
 .section-title {
     margin: 0;
     font-family: var(--font-display);
-    font-weight: 200;
+    font-weight: 400;
     font-size: 32px;
     line-height: 1.18;
     color: var(--accent);
@@ -187,13 +200,17 @@ a { color: inherit; }
     background: var(--accent);
 }
 
+/* Без этого height: 100% у списка не от чего считать — у <nav> высота auto,
+   и пункты прижимаются к верху полосы вместо центра. */
+.nav nav { height: 100%; }
+
 .nav__list {
     display: flex;
     justify-content: space-between;
     align-items: center;
     height: 100%;
     max-width: var(--container);
-    margin-inline: auto;
+    margin: 0 auto;
     padding: 0 var(--gutter);
     list-style: none;
 }
@@ -260,11 +277,15 @@ a { color: inherit; }
     max-width: none;
 }
 
-.hero__photo--blur {
+/* В макете за фигурой лежит не копия фото, а её чёрный силуэт с размытием,
+   сдвинутый на 13px вправо и 6px вниз, — он даёт мягкую тень по правому
+   и нижнему контуру. Сила подобрана по замеру рендера макета: фон у края
+   руки темнеет примерно на 30% в полосе ~15px. */
+.hero__shadow {
     left: 0;
     top: 3.96%;            /*  16 / 404 */
-    opacity: .41;
-    filter: blur(6.45px);
+    opacity: .38;
+    filter: blur(7px);
 }
 
 .hero__lines {
@@ -287,7 +308,7 @@ a { color: inherit; }
 .hero__title {
     margin: 0;
     font-family: var(--font-display);
-    font-weight: 200;
+    font-weight: 400;
     font-size: 32px;
     line-height: 1.18;
     color: var(--accent);
@@ -381,33 +402,26 @@ a { color: inherit; }
     top: -8px;
     width: 69%;
     font-family: var(--font-display);
-    font-weight: 300;
+    font-weight: 400;
     font-size: 10px;
     line-height: 1.55;
     text-align: right;
     text-transform: uppercase;
 }
 
-/* Синие скобки вокруг цитаты. */
+/* Синие скобки в строке: «[» перед первым словом, «]» после последнего,
+   как в макете. line-height: 0 — чтобы увеличенный кегль скобки
+   не раздвигал строки. */
 .about__quote::before,
 .about__quote::after {
-    position: absolute;
     color: var(--accent);
-    font-size: 14px;
-    line-height: 1;
+    font-size: 1.4em;
+    line-height: 0;
+    vertical-align: -.06em;
 }
 
-.about__quote::before {
-    content: '[';
-    left: 5px;
-    top: -4px;
-}
-
-.about__quote::after {
-    content: ']';
-    right: -8px;
-    bottom: -4px;
-}
+.about__quote::before { content: '[\00a0'; }
+.about__quote::after  { content: '\00a0]'; }
 
 /* ============================================================
    Мой подход
@@ -433,13 +447,9 @@ a { color: inherit; }
 
 .approach__num {
     width: 75px;
-    /* -48px поставило бы правый край бокса ровно как в макете, но у Exo 2
-       цифры уже, чем у шрифта макета (60px против 75px), и срезалось бы
-       всего 9% вместо 28%. Дополнительные -12px восстанавливают ту же
-       долю среза, что и в оригинале. */
-    margin-left: -60px;
+    margin-left: -48px;
     font-family: var(--font-display);
-    font-weight: 200;
+    font-weight: 400;
     font-size: 64px;
     line-height: .95;
     letter-spacing: -.02em;
@@ -902,17 +912,6 @@ a { color: inherit; }
         text-align: left;
     }
 
-    .about__quote::before {
-        left: 0;
-        top: 0;
-        font-size: 20px;
-    }
-
-    .about__quote::after {
-        right: 0;
-        bottom: 0;
-        font-size: 20px;
-    }
 
     .services__list {
         display: grid;
