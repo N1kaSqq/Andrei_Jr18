@@ -29,7 +29,7 @@ node .claude/dev-server.js
 
 ## Как поменять ссылки
 
-Все ссылки на Telegram, VK и Instagram — обычные `href` прямо в `index.html`, никакого JS. Сейчас там заглушки `CHANGE_ME`. Что и где менять — в `TODO.md`, там же готовые команды замены.
+Все ссылки на Telegram и Instagram — обычные `href` прямо в `index.html`, никакого JS: `https://t.me/Andrei_Jr18` в шести местах (все CTA и кнопка в контактах) и `https://www.instagram.com/snegurov.jr18/` в одном. Менять — поиском по файлу.
 
 ## Шрифты
 
